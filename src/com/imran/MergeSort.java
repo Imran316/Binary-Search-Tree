@@ -27,13 +27,13 @@ public class MergeSort extends Thread{
             mergeSort();
             return;
         }
-        System.out.println(noOfThreads);
+//        System.out.println(noOfThreads);
         int mid = (left+right)>>1;
         MergeSort m1 = new MergeSort(nums,left,mid,(noOfThreads>>1));
         MergeSort m2 = new MergeSort(nums,mid+1,right,(noOfThreads>>1));
 
-        m1.run();
-        m2.run();
+        m1.start();
+        m2.start();
 
         try {
             m1.join();
@@ -83,16 +83,19 @@ public class MergeSort extends Thread{
         }
     }
 
-    private static int size = 10000;
+    private static int size = 100000000;
+    private static int noOfThreadss = 8;
     public static void main(String[] args) {
         int nums[] = new int[size];
         for(int i=0;i<size;i++)
-            nums[i] = (int) (Math.random() * size);
+            nums[i] = (int) (Math.random() * 10000);
         int left = 0, right = size-1;
 
-        MergeSort mergeSortAlgo = new MergeSort(nums,left,right,8);
+        MergeSort mergeSortAlgo = new MergeSort(nums,left,right,noOfThreadss);
 //        mergeSortAlgo.mergeSort();
+        long start = System.currentTimeMillis();
         mergeSortAlgo.mergeSortThreadedCall();
-        mergeSortAlgo.printArray();
+        System.out.println(System.currentTimeMillis() - start);
+//        mergeSortAlgo.printArray();
     }
 }
